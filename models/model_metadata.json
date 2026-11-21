@@ -1,0 +1,73 @@
+{
+  "project": "Turbofan Predictive Maintenance (NASA C-MAPSS FD001)",
+  "model_name": "Stacked LSTM Network",
+  "architecture": {
+    "input_shape": [
+      30,
+      17
+    ],
+    "layer_1": "LSTM(64, return_sequences=True)",
+    "dropout_1": 0.2,
+    "layer_2": "LSTM(32, return_sequences=False)",
+    "dropout_2": 0.2,
+    "dense_hidden": "Dense(16, activation='relu')",
+    "output_layer": "Dense(1, activation='linear')",
+    "total_trainable_parameters": 33953
+  },
+  "training_configuration": {
+    "optimizer": "Adam",
+    "learning_rate": 0.001,
+    "loss": "mean_squared_error",
+    "batch_size": 64,
+    "max_epochs": 50,
+    "early_stopping": {
+      "monitor": "val_loss",
+      "patience": 7,
+      "restore_best_weights": true
+    }
+  },
+  "data_pipeline": {
+    "dataset": "NASA C-MAPSS FD001",
+    "window_size": 30,
+    "stride": 1,
+    "rul_cap": 125,
+    "random_seed": 42,
+    "selected_features": [
+      "op_setting_1",
+      "op_setting_2",
+      "sensor_2",
+      "sensor_3",
+      "sensor_4",
+      "sensor_6",
+      "sensor_7",
+      "sensor_8",
+      "sensor_9",
+      "sensor_11",
+      "sensor_12",
+      "sensor_13",
+      "sensor_14",
+      "sensor_15",
+      "sensor_17",
+      "sensor_20",
+      "sensor_21"
+    ],
+    "num_selected_features": 17,
+    "train_engines_count": 80,
+    "val_engines_count": 20
+  },
+  "validation_performance": {
+    "notebook_08_original": {
+      "rmse": 13.477,
+      "nasa_total": 11396.72,
+      "nasa_per_sample": 3.2655,
+      "best_epoch": 5
+    },
+    "notebook_12_reproduced": {
+      "rmse": 13.477046012878418,
+      "nasa_total": 11396.723403167285,
+      "nasa_per_sample": 3.265536791738477,
+      "best_epoch": 5,
+      "completed_epochs": 12
+    }
+  }
+}

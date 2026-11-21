@@ -1,0 +1,72 @@
+# ==============================================================================
+# TURBOGUARD AI - Repository Ignore Rules (.gitignore)
+# ==============================================================================
+
+# Virtual Environment
+.venv/
+venv/
+env/
+ENV/
+
+# Python Cache & Bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Jupyter Notebook & Kernel Runtime
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/
+kernel-ipc-*
+*.ipynb_checkpoints
+
+# Duplicate execution artifacts inside notebooks
+notebooks/models/
+
+# Raw Datasets (Kept locally for training/testing, excluded from Git tracking)
+data/raw/
+data/raw/**
+
+# Secrets, Environment Variables & Credentials
+.env
+.env.*
+*.env
+*.pem
+*.key
+*.secret
+*.cert
+*.crt
+id_rsa*
+
+# Node & Frontend Build (for upcoming frontend/)
+node_modules/
+dist/
+build/
+.npm/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Testing & Linting Caches
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+.cache/
+
+# Operating System Metadata
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary & Log Files
+*.log
+*.tmp
+*.temp
