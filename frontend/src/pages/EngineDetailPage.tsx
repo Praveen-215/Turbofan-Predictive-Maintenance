@@ -42,7 +42,7 @@ export const EngineDetailPage: React.FC = () => {
   return (
     <div className="p-6 max-w-6xl mx-auto space-y-6">
       {/* Top Navigation */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <Button
           size="sm"
           variant="secondary"
@@ -52,9 +52,20 @@ export const EngineDetailPage: React.FC = () => {
           Back to Fleet Overview
         </Button>
         {summary && (
-          <Badge variant="cyan" dot>
-            Engine Unit #{summary.engine_id.toString().padStart(3, '0')}
-          </Badge>
+          <div className="flex items-center gap-2.5">
+            <Button
+              size="sm"
+              variant="primary"
+              onClick={() => navigate(`/engines?id=${summary.engine_id}`)}
+              icon={<Gauge className="w-3.5 h-3.5" />}
+              className="text-xs font-mono font-semibold"
+            >
+              Launch Telemetry Visualizer
+            </Button>
+            <Badge variant="cyan" dot>
+              Engine Unit #{summary.engine_id.toString().padStart(3, '0')}
+            </Badge>
+          </div>
         )}
       </div>
 
@@ -165,14 +176,32 @@ export const EngineDetailPage: React.FC = () => {
             </Card>
           </div>
 
-          {/* Phase 3B Coming Soon Notice */}
-          <Card className="bg-navy-900/40 border-dashed border-border-muted p-5 text-center space-y-2">
-            <h4 className="text-xs font-semibold text-cyan-400 uppercase tracking-wider">
-              Phase 3B: Advanced Telemetry Visualizer & Degradation Replay
-            </h4>
-            <p className="text-xs text-slate-400 max-w-xl mx-auto">
-              Interactive multi-sensor degradation timeline, LSTM sliding window simulation, and live RUL projection will be available in Phase 3B.
-            </p>
+          {/* Phase 3B Active Telemetry Visualizer Card */}
+          <Card className="bg-navy-900/90 border border-cyan-500/40 p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div className="space-y-1">
+              <div className="flex items-center gap-2">
+                <Gauge className="w-4 h-4 text-cyan-400" />
+                <h4 className="text-xs font-bold text-white uppercase tracking-wider font-mono">
+                  Engine Telemetry Visualizer & Historical Replay
+                </h4>
+                <Badge variant="cyan" dot>
+                  Phase 3B Active
+                </Badge>
+              </div>
+              <p className="text-xs text-slate-400 max-w-xl">
+                Explore chronological 17-channel telemetry signals, adjust dataset cycle ranges, step through historical degradation replay, and evaluate Stacked LSTM Remaining Useful Life on Unit #{summary.engine_id}.
+              </p>
+            </div>
+
+            <Button
+              variant="primary"
+              size="md"
+              onClick={() => navigate(`/engines?id=${summary.engine_id}`)}
+              icon={<Gauge className="w-4 h-4" />}
+              className="font-mono text-xs font-semibold shrink-0"
+            >
+              Open in Telemetry Visualizer
+            </Button>
           </Card>
         </>
       )}
