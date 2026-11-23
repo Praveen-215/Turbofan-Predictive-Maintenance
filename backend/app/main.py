@@ -17,6 +17,7 @@ from backend.app.core.config import settings
 from backend.app.core.logging import setup_logging
 from backend.app.services.inference_service import InferenceService
 from backend.app.services.fleet_service import FleetService
+from backend.app.services.analytics_service import AnalyticsService
 from backend.app.api.v1.router import api_router
 
 # Setup application logging
@@ -28,6 +29,7 @@ async def lifespan(app: FastAPI):
     Application lifespan context manager:
     1. Loads Keras model, fitted scaler, selected features, and metadata once on startup.
     2. Loads and indexes 100 test engines from test_FD001.txt into memory once on startup.
+    3. Initializes the AnalyticsService for cached test parity and overview.
     Ensures zero reload overhead on individual API requests.
     """
     # 1. Initialize Inference Service
@@ -48,11 +50,15 @@ async def lifespan(app: FastAPI):
     flt_service.load_data()
     app.state.fleet_service = flt_service
 
+    # 3. Initialize Analytics Service
+    app.state.analytics_service = AnalyticsService()
+
     yield
 
     # Graceful shutdown
     app.state.inference_service = None
     app.state.fleet_service = None
+    app.state.analytics_service = None
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
@@ -80,5 +86,6 @@ def root_status():
         "version": "1.0.0",
         "documentation": "/docs",
         "health_check": f"{settings.API_V1_STR}/health",
-        "fleet_overview": f"{settings.API_V1_STR}/fleet"
+        "fleet_overview": f"{settings.API_V1_STR}/fleet",
+        "model_analytics": f"{settings.API_V1_STR}/analytics/overview"
     }

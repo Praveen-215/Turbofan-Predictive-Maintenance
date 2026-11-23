@@ -1,5 +1,6 @@
 import { FleetOverviewResponse, EngineSummaryResponse, EngineTelemetryResponse, EngineReplayResponse } from '../types/fleet';
 import { HealthResponse, PredictionResponse, TelemetrySequenceRequest } from '../types/prediction';
+import { AnalyticsOverviewResponse, TestParityResponse } from '../types/analytics';
 import { ApiError } from '../types/api';
 
 const BASE_URL = (import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api/v1').replace(/\/+$/, '');
@@ -98,5 +99,13 @@ export const api = {
       method: 'POST',
       body: JSON.stringify(payload),
     });
+  },
+
+  async getAnalyticsOverview(): Promise<AnalyticsOverviewResponse> {
+    return request<AnalyticsOverviewResponse>('/analytics/overview');
+  },
+
+  async getAnalyticsTestParity(): Promise<TestParityResponse> {
+    return request<TestParityResponse>('/analytics/test-parity');
   },
 };
